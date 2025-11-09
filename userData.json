@@ -6,6 +6,7 @@
     "email": "user1@example.com",
     "verified": true,
     "balance": 50,
+    "joinDate": "2023-01-01T00:00:00.000Z",
     "wishlist": [],
     "library": [],
     "cart": []
@@ -18,6 +19,7 @@
     "password": "$2a$10$E4aDmzdZGCOuY./gdG8WUeCUwZ6zDXd1q63/jyw3wKdDVp0uyzzr.",
     "verified": true,
     "balance": 100,
+    "joinDate": "2023-01-01T00:00:00.000Z",
     "wishlist": [
       1,
       5,
@@ -46,6 +48,7 @@
     "password": "$2a$10$0IUjhpe/VGlLgqvyLepKS.dJOo2Ag0fux64FEiwQOvxJOjQhAXAtG",
     "verified": true,
     "balance": 0,
+    "joinDate": "2023-01-01T00:00:00.000Z",
     "wishlist": [],
     "library": [],
     "cart": []

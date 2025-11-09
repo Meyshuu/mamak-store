@@ -231,6 +231,24 @@
             box-shadow: 0 6px 12px rgba(0,0,0,0.4);
         }
 
+        .user-info-card .change-avatar-btn {
+            margin-top: 10px;
+            padding: 8px 15px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .user-info-card .change-avatar-btn:hover {
+            background: linear-gradient(45deg, #ee5a52, #dc4545);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(255, 107, 107, 0.4);
+        }
+
         .purchase-history-card ul {
             list-style: none;
             padding: 0;
@@ -1415,6 +1433,7 @@
             .then(data => {
                 if (data.success) {
                     const library = data.data.library;
+                    const wishlist = data.data.wishlist;
                     const libraryList = document.getElementById('profile-library');
                     libraryList.innerHTML = '';
                     library.forEach(gameId => {
@@ -1425,6 +1444,20 @@
                             libraryList.appendChild(li);
                         }
                     });
+                    // Populate stats
+                    document.getElementById('profile-games-owned').textContent = library.length;
+                    document.getElementById('profile-wishlist-count').textContent = wishlist.length;
+                    let totalSpent = 0;
+                    library.forEach(gameId => {
+                        const game = games.find(g => g.id === gameId);
+                        if (game) totalSpent += game.price;
+                    });
+                    document.getElementById('profile-total-spent').textContent = totalSpent;
+                    const badgesDiv = document.getElementById('profile-badges');
+                    badgesDiv.innerHTML = '';
+                    if (library.length >= 5) badgesDiv.innerHTML += '<span class="badge">Enthusiast</span>';
+                    if (totalSpent > 1000000) badgesDiv.innerHTML += '<span class="badge">Big Spender</span>';
+                    if (library.length >= 10) badgesDiv.innerHTML += '<span class="badge">Collector</span>';
                 }
             })
             .catch(error => {

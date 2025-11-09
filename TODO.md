@@ -5,8 +5,8 @@
 - [x] Remove change password form and button from settings
 - [x] Reorder profile cards: user-info, recommendations (horizontal), stats, purchase history
 - [x] Make recommendations section horizontal layout
-- [ ] Ensure user info and stats are properly populated with data
-- [ ] Add calculations for stats (games owned, wishlist count, total spent, badges)
+- [x] Ensure user info and stats are properly populated with data
+- [x] Add calculations for stats (games owned, wishlist count, total spent, badges)
 - [ ] Test the profile page functionality
 
 ## Information Gathered:
