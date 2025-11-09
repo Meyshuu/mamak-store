@@ -1,0 +1,6 @@
+- [x] Remove mongoose require from server.js
+- [x] Remove commented MongoDB connection code from server.js
+- [x] Remove isDbConnected flag and all conditional MongoDB logic from endpoints in server.js
+- [x] Simplify endpoints to only use file-based logic
+- [x] Remove MONGODB_URI from vercel.json env
+- [x] Test the server to ensure it works without MongoDB

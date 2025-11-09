@@ -5,13 +5,8 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
-
-// const User = require('./models/User');
-// const Game = require('./models/Game');
-// const Review = require('./models/Review');
 
 // Games data for seeding
 const gamesData = [
@@ -70,42 +65,6 @@ function loadDataFromFiles() {
 const app = express();
 const PORT = process.env.PORT || 8000;
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret';
-
-// Flag to check if DB is connected
-let isDbConnected = false;
-
-// // Connect to MongoDB
-// mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/webstore')
-// .then(async () => {
-//   console.log('Connected to MongoDB');
-//   isDbConnected = true;
-
-//   // Seed games data if not already seeded
-//   const existingGames = await Game.find({});
-//   if (existingGames.length === 0) {
-//     console.log('Seeding games data...');
-//     // Transform gamesData to match schema
-//     const transformedGames = gamesData.map(game => ({
-//       id: game.id,
-//       title: game.name,
-//       genre: game.genre,
-//       price: game.price,
-//       image: game.img,
-//       description: game.desc,
-//       reviews: game.reviews || []
-//     }));
-//     await Game.insertMany(transformedGames);
-//     console.log('Games data seeded successfully');
-//   } else {
-//     console.log('Games data already exists, skipping seed');
-//   }
-// })
-// .catch(err => {
-//   console.error('MongoDB connection error:', err);
-//   console.log('Running in demo mode without database persistence');
-//   // Don't exit process, continue with file-based fallback
-//   isDbConnected = false;
-// });
 
 // Middleware
 app.use(cors());
@@ -166,34 +125,12 @@ return Math.random().toString(36).substr(2) + Date.now().toString(36);
 // API Endpoints
 
 // Get all games
-app.get('/api/games', async (req, res) => {
-try {
-if (isDbConnected) {
-const games = await Game.find({});
-res.json(games);
-} else {
+app.get('/api/games', (req, res) => {
 res.json(gamesData);
-}
-} catch (err) {
-console.error('Error fetching games:', err);
-res.status(500).json({ success: false, message: 'Server error' });
-}
 });
 
 // Login
-app.post('/api/login', async (req, res) => {
-try {
-if (isDbConnected) {
-const { username, password } = req.body;
-const user = await User.findOne({ username });
-if (user && await bcrypt.compare(password, user.password)) {
-const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
-res.json({ success: true, token, user: { id: user._id, username: user.username, email: user.email, avatar: user.avatar, balance: user.balance } });
-} else {
-res.status(401).json({ success: false, message: 'Invalid credentials' });
-}
-} else {
-// Demo mode: use file-based data
+app.post('/api/login', (req, res) => {
 const { username, password } = req.body;
 const user = Object.values(userData).find(u => u.username === username);
 if (user && bcrypt.compareSync(password, user.password)) {
@@ -202,46 +139,16 @@ res.json({ success: true, token, user: { id: user.id, username: user.username, e
 } else {
 res.status(401).json({ success: false, message: 'Invalid credentials' });
 }
-}
-} catch (err) {
-console.error('Login error:', err);
-res.status(500).json({ success: false, message: 'Server error' });
-}
 });
 
 // Register
-app.post('/api/register', async (req, res) => {
-try {
-if (isDbConnected) {
-const { username, email, password } = req.body;
-const existingUser = await User.findOne({ $or: [{ username }, { email }] });
-if (existingUser) {
-res.status(400).json({ success: false, message: 'User already exists' });
-} else {
-const hashedPassword = await bcrypt.hash(password, 10);
-const newUser = new User({
-username,
-email,
-password: hashedPassword,
-verified: true,
-avatar: 'default-avatar.png',
-balance: 0,
-joinDate: new Date(),
-wishlist: [],
-library: [],
-cart: []
-});
-await newUser.save();
-res.json({ success: true, message: 'Registration successful.' });
-}
-} else {
-// Demo mode: use file-based data
+app.post('/api/register', (req, res) => {
 const { username, email, password } = req.body;
 const existingUser = Object.values(userData).find(u => u.username === username || u.email === email);
 if (existingUser) {
 res.status(400).json({ success: false, message: 'User already exists' });
 } else {
-const hashedPassword = await bcrypt.hash(password, 10);
+const hashedPassword = bcrypt.hashSync(password, 10);
 const newId = Math.max(...Object.keys(userData).map(k => parseInt(k))) + 1;
 userData[newId] = {
 id: newId,
@@ -259,11 +166,6 @@ cart: []
 saveUserData();
 res.json({ success: true, message: 'Registration successful.' });
 }
-}
-} catch (err) {
-console.error('Registration error:', err);
-res.status(500).json({ success: false, message: 'Server error' });
-}
 });
 
 // Email verification
@@ -280,21 +182,7 @@ res.status(404).send('User not found');
 });
 
 // Get user profile (requires token)
-app.get('/api/user', async (req, res) => {
-const token = req.headers.authorization;
-if (!token) return res.status(401).json({ success: false, message: 'No token provided' });
-try {
-if (isDbConnected) {
-const decoded = jwt.verify(token, JWT_SECRET);
-const userId = decoded.userId;
-const user = await User.findById(userId);
-if (user) {
-res.json({ success: true, user: { id: user._id, username: user.username, email: user.email, avatar: user.avatar, verified: user.verified, balance: user.balance } });
-} else {
-res.status(404).json({ success: false, message: 'User not found' });
-}
-} else {
-// Demo mode: use file-based data
+app.get('/api/user', (req, res) => {
 const userId = req.query.userId; // Assuming userId is passed as query param for demo
 const user = userData[userId];
 if (user) {
@@ -302,29 +190,10 @@ res.json({ success: true, user: { id: user.id, username: user.username, email: u
 } else {
 res.status(404).json({ success: false, message: 'User not found' });
 }
-}
-} catch (err) {
-console.error('Get user error:', err);
-res.status(500).json({ success: false, message: 'Server error' });
-}
 });
 
 // Add/Remove from wishlist
-app.post('/api/wishlist', async (req, res) => {
-try {
-if (isDbConnected) {
-const { userId, gameId, action } = req.body; // action: 'add' or 'remove'
-const user = await User.findById(userId);
-if (!user) return res.status(404).json({ success: false, message: 'User not found' });
-if (action === 'add' && !user.wishlist.includes(gameId)) {
-user.wishlist.push(gameId);
-} else if (action === 'remove') {
-user.wishlist = user.wishlist.filter(id => id !== gameId);
-}
-await user.save();
-res.json({ success: true, wishlist: user.wishlist });
-} else {
-// Demo mode: use file-based data
+app.post('/api/wishlist', (req, res) => {
 const { userId, gameId, action } = req.body;
 const user = userData[userId];
 if (!user) return res.status(404).json({ success: false, message: 'User not found' });
@@ -335,41 +204,10 @@ user.wishlist = user.wishlist.filter(id => id !== gameId);
 }
 saveUserData();
 res.json({ success: true, wishlist: user.wishlist });
-}
-} catch (err) {
-console.error('Wishlist error:', err);
-res.status(500).json({ success: false, message: 'Server error' });
-}
 });
 
 // Add/Remove/Update cart
-app.post('/api/cart', async (req, res) => {
-try {
-if (isDbConnected) {
-const { userId, gameId, action, quantity } = req.body; // action: 'add', 'remove', 'update'
-const user = await User.findById(userId);
-if (!user) return res.status(404).json({ success: false, message: 'User not found' });
-const cartItem = user.cart.find(item => item.gameId === gameId);
-if (action === 'add') {
-if (cartItem) {
-cartItem.quantity += quantity || 1;
-} else {
-user.cart.push({ gameId, quantity: quantity || 1 });
-}
-} else if (action === 'remove') {
-user.cart = user.cart.filter(item => item.gameId !== gameId);
-} else if (action === 'update') {
-if (cartItem) {
-cartItem.quantity = quantity;
-if (cartItem.quantity <= 0) {
-user.cart = user.cart.filter(item => item.gameId !== gameId);
-}
-}
-}
-await user.save();
-res.json({ success: true, cart: user.cart });
-} else {
-// Demo mode: use file-based data
+app.post('/api/cart', (req, res) => {
 const { userId, gameId, action, quantity } = req.body;
 const user = userData[userId];
 if (!user) return res.status(404).json({ success: false, message: 'User not found' });
@@ -392,29 +230,10 @@ user.cart = user.cart.filter(item => item.gameId !== gameId);
 }
 saveUserData();
 res.json({ success: true, cart: user.cart });
-}
-} catch (err) {
-console.error('Cart error:', err);
-res.status(500).json({ success: false, message: 'Server error' });
-}
 });
 
 // Add to library (purchase)
-app.post('/api/library', async (req, res) => {
-try {
-if (isDbConnected) {
-const { userId, gameId } = req.body;
-const user = await User.findById(userId);
-if (!user) return res.status(404).json({ success: false, message: 'User not found' });
-if (!user.library.includes(gameId)) {
-user.library.push(gameId);
-// Remove from cart if present
-user.cart = user.cart.filter(item => item.gameId !== gameId);
-await user.save();
-}
-res.json({ success: true, library: user.library });
-} else {
-// Demo mode: use file-based data
+app.post('/api/library', (req, res) => {
 const { userId, gameId } = req.body;
 const user = userData[userId];
 if (!user) return res.status(404).json({ success: false, message: 'User not found' });
@@ -425,31 +244,10 @@ user.cart = user.cart.filter(item => item.gameId !== gameId);
 saveUserData();
 }
 res.json({ success: true, library: user.library });
-}
-} catch (err) {
-console.error('Library error:', err);
-res.status(500).json({ success: false, message: 'Server error' });
-}
 });
 
 // Get user data
-app.get('/api/user-data/:userId', async (req, res) => {
-try {
-if (isDbConnected) {
-const user = await User.findById(req.params.userId);
-if (user) {
-    // Populate cart with full game data
-    const allGames = await Game.find({});
-    const populatedCart = user.cart.map(cartItem => {
-        const game = allGames.find(g => g.id === cartItem.gameId);
-        return game ? { ...cartItem, game } : cartItem;
-    });
-    res.json({ success: true, data: { wishlist: user.wishlist, library: user.library, cart: populatedCart } });
-} else {
-res.status(404).json({ success: false, message: 'User not found' });
-}
-} else {
-// Demo mode: use file-based data
+app.get('/api/user-data/:userId', (req, res) => {
 const user = userData[req.params.userId];
 if (user) {
     // Populate cart with full game data
@@ -461,32 +259,10 @@ if (user) {
 } else {
 res.status(404).json({ success: false, message: 'User not found' });
 }
-}
-} catch (err) {
-console.error('Get user data error:', err);
-res.status(500).json({ success: false, message: 'Server error' });
-}
 });
 
 // Update user avatar
-app.post('/api/avatar', async (req, res) => {
-const token = req.headers.authorization;
-if (!token) return res.status(401).json({ success: false, message: 'No token provided' });
-try {
-if (isDbConnected) {
-const decoded = jwt.verify(token, JWT_SECRET);
-const userId = decoded.userId;
-const { avatar } = req.body;
-const user = await User.findById(userId);
-if (user) {
-user.avatar = avatar;
-await user.save();
-res.json({ success: true, avatar });
-} else {
-res.status(404).json({ success: false, message: 'User not found' });
-}
-} else {
-// Demo mode: use file-based data
+app.post('/api/avatar', (req, res) => {
 const userId = req.body.userId; // Assuming userId is passed in body for demo
 const { avatar } = req.body;
 const user = userData[userId];
@@ -496,75 +272,26 @@ saveUserData();
 res.json({ success: true, avatar });
 } else {
 res.status(404).json({ success: false, message: 'User not found' });
-}
-}
-} catch (err) {
-console.error('Avatar update error:', err);
-res.status(500).json({ success: false, message: 'Server error' });
 }
 });
 
 // Change password
-app.post('/api/change-password', async (req, res) => {
-const token = req.headers.authorization;
-if (!token) return res.status(401).json({ success: false, message: 'No token provided' });
-try {
-if (isDbConnected) {
-const decoded = jwt.verify(token, JWT_SECRET);
-const userId = decoded.userId;
-const { currentPassword, newPassword } = req.body;
-const user = await User.findById(userId);
-if (user && await bcrypt.compare(currentPassword, user.password)) {
-const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-user.password = hashedNewPassword;
-await user.save();
-res.json({ success: true, message: 'Password changed successfully' });
-} else {
-res.status(400).json({ success: false, message: 'Current password is incorrect' });
-}
-} else {
-// Demo mode: use file-based data
+app.post('/api/change-password', (req, res) => {
 const userId = req.body.userId; // Assuming userId is passed in body for demo
 const { currentPassword, newPassword } = req.body;
 const user = userData[userId];
-if (user && await bcrypt.compare(currentPassword, user.password)) {
-const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+if (user && bcrypt.compareSync(currentPassword, user.password)) {
+const hashedNewPassword = bcrypt.hashSync(newPassword, 10);
 user.password = hashedNewPassword;
 saveUserData();
 res.json({ success: true, message: 'Password changed successfully' });
 } else {
 res.status(400).json({ success: false, message: 'Current password is incorrect' });
 }
-}
-} catch (err) {
-console.error('Change password error:', err);
-res.status(500).json({ success: false, message: 'Server error' });
-}
 });
 
 // Get recommendations for user
-app.get('/api/recommendations/:userId', async (req, res) => {
-try {
-if (isDbConnected) {
-const user = await User.findById(req.params.userId);
-if (!user) return res.json({ success: true, recommendations: [] });
-
-const userGenres = new Set();
-const userGames = [...user.library, ...user.wishlist];
-const allGames = await Game.find({});
-userGames.forEach(gameId => {
-    const game = allGames.find(g => g.id === gameId);
-    if (game) game.genre.forEach(genre => userGenres.add(genre));
-});
-
-const recommendations = allGames.filter(game =>
-    !userGames.includes(game.id) &&
-    game.genre.some(genre => userGenres.has(genre))
-).slice(0, 5); // Limit to 5 recommendations
-
-res.json({ success: true, recommendations });
-} else {
-// Demo mode: use file-based data
+app.get('/api/recommendations/:userId', (req, res) => {
 const user = userData[req.params.userId];
 if (!user) return res.json({ success: true, recommendations: [] });
 
@@ -581,46 +308,10 @@ const recommendations = gamesData.filter(game =>
 ).slice(0, 5); // Limit to 5 recommendations
 
 res.json({ success: true, recommendations });
-}
-} catch (err) {
-console.error('Recommendations error:', err);
-res.status(500).json({ success: false, message: 'Server error' });
-}
 });
 
 // Add review
-app.post('/api/reviews', async (req, res) => {
-try {
-if (isDbConnected) {
-const { gameId, user, rating, comment } = req.body;
-const game = await Game.findOne({ id: parseInt(gameId) });
-if (game) {
-const userObj = await User.findOne({ username: user });
-const avatar = userObj ? userObj.avatar : 'default-avatar.png';
-const newReview = new Review({
-gameId: parseInt(gameId),
-user,
-rating: parseFloat(rating),
-comment,
-date: new Date(),
-avatar
-});
-await newReview.save();
-game.reviews.push({
-gameId: parseInt(gameId),
-user,
-rating: parseFloat(rating),
-comment,
-date: newReview.date.toISOString(),
-avatar
-});
-await game.save();
-res.json({ success: true, reviews: game.reviews });
-} else {
-res.status(404).json({ success: false, message: 'Game not found' });
-}
-} else {
-// Demo mode: use file-based data
+app.post('/api/reviews', (req, res) => {
 const { gameId, user, rating, comment } = req.body;
 const game = gamesData.find(g => g.id === parseInt(gameId));
 if (game) {
@@ -640,11 +331,6 @@ saveReviews();
 res.json({ success: true, reviews: game.reviews });
 } else {
 res.status(404).json({ success: false, message: 'Game not found' });
-}
-}
-} catch (err) {
-console.error('Add review error:', err);
-res.status(500).json({ success: false, message: 'Server error' });
 }
 });
 
