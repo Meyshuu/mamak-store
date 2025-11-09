@@ -249,9 +249,15 @@
         }
 
         .recommendations-card .game-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            display: flex;
+            overflow-x: auto;
             gap: 15px;
+            padding: 10px 0;
+        }
+
+        .recommendations-card .game-card {
+            flex: 0 0 200px;
+            min-width: 200px;
         }
 
         .recommendations-card .game-card {
