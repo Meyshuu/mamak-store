@@ -154,15 +154,7 @@ app.get('/index.html', (req, res) => {
 res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Serve static files
-app.get('/*', (req, res) => {
-  const filePath = path.join(__dirname, 'public', req.path);
-  if (fs.existsSync(filePath)) {
-    res.sendFile(filePath);
-  } else {
-    res.status(404).send('File not found');
-  }
-});
+
 
 
 
