@@ -14,5 +14,13 @@
     "comment": "asd",
     "date": "2025-11-07T20:54:48.908Z",
     "avatar": "default-avatar.png"
+  },
+  {
+    "gameId": 1,
+    "user": "testuser",
+    "rating": 5,
+    "comment": "Great game!",
+    "date": "2025-11-09T02:43:00.506Z",
+    "avatar": "default-avatar.png"
   }
 ]
