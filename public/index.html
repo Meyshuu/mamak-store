@@ -1385,28 +1385,36 @@
 
         // Fungsi change avatar
         function changeAvatar() {
-            const newAvatar = prompt('Enter new avatar URL:');
-            if (newAvatar) {
-                const token = localStorage.getItem('token');
-                fetch('/api/avatar', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': token },
-                    body: JSON.stringify({ avatar: newAvatar })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        document.getElementById('profile-avatar').src = newAvatar;
-                        showNotification('Avatar updated!', 'success');
-                    } else {
-                        showNotification('Failed to update avatar.', 'error');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    showNotification('Error updating avatar.', 'error');
-                });
-            }
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const formData = new FormData();
+                    formData.append('avatar', file);
+                    formData.append('userId', localStorage.getItem('userId'));
+
+                    fetch('/api/avatar', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.getElementById('profile-avatar').src = data.avatar;
+                            showNotification('Avatar updated!', 'success');
+                        } else {
+                            showNotification('Failed to update avatar.', 'error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        showNotification('Error updating avatar.', 'error');
+                    });
+                }
+            };
+            input.click();
         }
 
         // Fungsi update profile

@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
+const multer = require('multer');
 
 // Games data for seeding
 const gamesData = [
@@ -69,6 +70,23 @@ const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret';
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadDir = path.join(__dirname, 'public', 'uploads');
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage: storage });
 
 // Demo user data (for Vercel compatibility)
 let userData = {
@@ -297,16 +315,23 @@ res.status(404).json({ success: false, message: 'User not found' });
 });
 
 // Update user avatar
-app.post('/api/avatar', (req, res) => {
+app.post('/api/avatar', upload.single('avatar'), (req, res) => {
 const userId = req.body.userId; // Assuming userId is passed in body for demo
-const { avatar } = req.body;
 const user = userData[userId];
 if (user) {
-user.avatar = avatar;
-saveUserData();
-res.json({ success: true, avatar });
+  let avatarUrl;
+  if (req.file) {
+    // File uploaded
+    avatarUrl = '/uploads/' + req.file.filename;
+  } else {
+    // URL provided
+    avatarUrl = req.body.avatar;
+  }
+  user.avatar = avatarUrl;
+  saveUserData();
+  res.json({ success: true, avatar: avatarUrl });
 } else {
-res.status(404).json({ success: false, message: 'User not found' });
+  res.status(404).json({ success: false, message: 'User not found' });
 }
 });
 
