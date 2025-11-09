@@ -70,25 +70,48 @@ const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret';
 app.use(cors());
 app.use(bodyParser.json());
 
-// Load reviews from file (temporary for migration)
-let reviews = [];
-try {
-const data = fs.readFileSync(path.join(__dirname, 'reviews.json'), 'utf8').replace(/^\uFEFF/, '');
-reviews = JSON.parse(data);
-} catch (err) {
-console.error('Error loading reviews:', err);
-reviews = [];
-}
+// Demo user data (for Vercel compatibility)
+let userData = {
+  "1": {
+    "id": 1,
+    "avatar": "images/avatar1.png",
+    "username": "user1",
+    "email": "user1@example.com",
+    "password": "$2a$10$example.hash.for.user1",
+    "verified": true,
+    "balance": 50,
+    "wishlist": [],
+    "library": [],
+    "cart": []
+  },
+  "2": {
+    "id": 2,
+    "avatar": "images/admin.png",
+    "username": "admin",
+    "email": "admin@example.com",
+    "password": "$2a$10$example.hash.for.admin",
+    "verified": true,
+    "balance": 100,
+    "wishlist": [1, 5, 7, 13, 17, 28],
+    "library": [2, 4, 9, 15, 19, 20, 25, 27],
+    "cart": []
+  },
+  "3": {
+    "id": 3,
+    "avatar": "images/vian.png",
+    "username": "vian",
+    "email": "vian@example.com",
+    "password": "$2a$10$example.hash.for.vian",
+    "verified": true,
+    "balance": 0,
+    "wishlist": [],
+    "library": [],
+    "cart": []
+  }
+};
 
-// Load userData from file (temporary for migration)
-let userData = {};
-try {
-const data = fs.readFileSync(path.join(__dirname, 'userData.json'), 'utf8').replace(/^\uFEFF/, '');
-userData = JSON.parse(data);
-} catch (err) {
-console.error('Error loading userData:', err);
-userData = {};
-}
+// Demo reviews data
+let reviews = [];
 
 // Function to save reviews to file (temporary)
 function saveReviews() {
@@ -104,6 +127,12 @@ fs.writeFileSync(path.join(__dirname, 'userData.json'), JSON.stringify(userData,
 }
 }
 
+// For Vercel, use demo data
+if (process.env.VERCEL) {
+  // Use the demo data defined above
+  console.log('Using demo data for Vercel deployment');
+}
+
 // Serve the HTML file
 app.get('/', (req, res) => {
 res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -112,6 +141,9 @@ res.sendFile(path.join(__dirname, 'public', 'index.html'));
 app.get('/index.html', (req, res) => {
 res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+// Serve static files from public directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 
