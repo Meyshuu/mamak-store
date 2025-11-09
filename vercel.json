@@ -8,7 +8,7 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!.*\\.(png|jpg|jpeg|gif|ico|html|css|js)).*)",
+      "source": "/(.*)",
       "destination": "/server.js"
     }
   ],
