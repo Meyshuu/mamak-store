@@ -7,14 +7,14 @@
     }
   ],
   "public": true,
-  "rewrites": [
+  "routes": [
     {
-      "source": "/",
-      "destination": "/index.html"
+      "src": "/api/(.*)",
+      "dest": "/server.js"
     },
     {
-      "source": "/api/(.*)",
-      "destination": "/server.js"
+      "src": "/(.*)",
+      "dest": "/public/$1"
     }
   ],
   "env": {
