@@ -1,10 +1,10 @@
 # Profile Page Improvements
 
 ## Tasks to Complete:
-- [ ] Move change avatar button from settings to user info card
-- [ ] Remove change password form and button from settings
-- [ ] Reorder profile cards: user-info, recommendations (horizontal), stats, purchase history
-- [ ] Make recommendations section horizontal layout
+- [x] Move change avatar button from settings to user info card
+- [x] Remove change password form and button from settings
+- [x] Reorder profile cards: user-info, recommendations (horizontal), stats, purchase history
+- [x] Make recommendations section horizontal layout
 - [ ] Ensure user info and stats are properly populated with data
 - [ ] Add calculations for stats (games owned, wishlist count, total spent, badges)
 - [ ] Test the profile page functionality

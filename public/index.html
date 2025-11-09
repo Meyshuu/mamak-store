@@ -586,11 +586,16 @@
                 <div class="profile-card user-info-card">
                     <h3>User Info</h3>
                     <img id="profile-avatar" src="" alt="Avatar" style="width: 100px; height: 100px; border-radius: 50%; cursor: pointer;" onclick="changeAvatar()">
+                    <button onclick="changeAvatar()">Change Avatar</button>
                     <p><strong>Username:</strong> <span id="profile-username"></span></p>
                     <p><strong>Email:</strong> <span id="profile-email"></span></p>
                     <p><strong>Verified:</strong> <span id="profile-verified"></span></p>
                     <p><strong>Balance:</strong> Rp <span id="profile-balance"></span></p>
                     <p><strong>Join Date:</strong> <span id="profile-join-date"></span></p>
+                </div>
+                <div class="profile-card recommendations-card">
+                    <h3>Recommended for You</h3>
+                    <div id="recommendations" class="game-grid"></div>
                 </div>
                 <div class="profile-card stats-card">
                     <h3>Stats</h3>
@@ -605,22 +610,6 @@
                 <div class="profile-card purchase-history-card">
                     <h3>Purchase History</h3>
                     <ul id="profile-library"></ul>
-                </div>
-                <div class="profile-card recommendations-card">
-                    <h3>Recommended for You</h3>
-                    <div id="recommendations" class="game-grid"></div>
-                </div>
-                <div class="profile-card settings-card">
-                    <h3>Settings</h3>
-                    <button onclick="changeAvatar()">Change Avatar</button>
-                    <div id="change-password-form" style="display: none;">
-                        <h4>Change Password</h4>
-                        <input type="password" id="current-password" placeholder="Current Password" required>
-                        <input type="password" id="new-password" placeholder="New Password" required>
-                        <input type="password" id="confirm-password" placeholder="Confirm New Password" required>
-                        <button onclick="changePassword()">Change Password</button>
-                    </div>
-                    <button onclick="togglePasswordForm()">Change Password</button>
                 </div>
             </div>
         </div>
