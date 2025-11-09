@@ -9,9 +9,9 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 
-const User = require('./models/User');
-const Game = require('./models/Game');
-const Review = require('./models/Review');
+// const User = require('./models/User');
+// const Game = require('./models/Game');
+// const Review = require('./models/Review');
 
 // Games data for seeding
 const gamesData = [
@@ -74,38 +74,38 @@ const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret';
 // Flag to check if DB is connected
 let isDbConnected = false;
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/webstore')
-.then(async () => {
-  console.log('Connected to MongoDB');
-  isDbConnected = true;
+// // Connect to MongoDB
+// mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/webstore')
+// .then(async () => {
+//   console.log('Connected to MongoDB');
+//   isDbConnected = true;
 
-  // Seed games data if not already seeded
-  const existingGames = await Game.find({});
-  if (existingGames.length === 0) {
-    console.log('Seeding games data...');
-    // Transform gamesData to match schema
-    const transformedGames = gamesData.map(game => ({
-      id: game.id,
-      title: game.name,
-      genre: game.genre,
-      price: game.price,
-      image: game.img,
-      description: game.desc,
-      reviews: game.reviews || []
-    }));
-    await Game.insertMany(transformedGames);
-    console.log('Games data seeded successfully');
-  } else {
-    console.log('Games data already exists, skipping seed');
-  }
-})
-.catch(err => {
-  console.error('MongoDB connection error:', err);
-  console.log('Running in demo mode without database persistence');
-  // Don't exit process, continue with file-based fallback
-  isDbConnected = false;
-});
+//   // Seed games data if not already seeded
+//   const existingGames = await Game.find({});
+//   if (existingGames.length === 0) {
+//     console.log('Seeding games data...');
+//     // Transform gamesData to match schema
+//     const transformedGames = gamesData.map(game => ({
+//       id: game.id,
+//       title: game.name,
+//       genre: game.genre,
+//       price: game.price,
+//       image: game.img,
+//       description: game.desc,
+//       reviews: game.reviews || []
+//     }));
+//     await Game.insertMany(transformedGames);
+//     console.log('Games data seeded successfully');
+//   } else {
+//     console.log('Games data already exists, skipping seed');
+//   }
+// })
+// .catch(err => {
+//   console.error('MongoDB connection error:', err);
+//   console.log('Running in demo mode without database persistence');
+//   // Don't exit process, continue with file-based fallback
+//   isDbConnected = false;
+// });
 
 // Middleware
 app.use(cors());
