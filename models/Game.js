@@ -2,27 +2,18 @@ const mongoose = require('mongoose');
 
 const gameSchema = new mongoose.Schema({
   id: { type: Number, required: true, unique: true },
-  name: { type: String, required: true },
-  img: { type: String },
-  desc: { type: String },
+  title: { type: String, required: true },
   genre: [{ type: String }],
-  price: { type: Number, default: 0 },
-  releaseDate: { type: String },
-  developer: { type: String },
-  platform: { type: String },
-  rating: { type: Number },
-  sysReq: {
-    min: { type: String },
-    rec: { type: String }
-  },
-  screenshots: [{ type: String }],
+  price: { type: Number, required: true },
+  image: { type: String },
+  description: { type: String },
   reviews: [{
-    gameId: { type: Number },
-    user: { type: String },
-    rating: { type: Number },
-    comment: { type: String },
-    date: { type: String },
-    avatar: { type: String }
+    gameId: Number,
+    user: String,
+    rating: Number,
+    comment: String,
+    date: Date,
+    avatar: String
   }]
 });
 
