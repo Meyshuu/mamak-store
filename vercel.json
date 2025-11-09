@@ -8,7 +8,7 @@
   ],
   "routes": [
     {
-      "src": "/images/(.*)",
+      "src": "/(.*\\.(png|jpg|jpeg|gif|ico))$",
       "dest": "/public/$1"
     },
     {
