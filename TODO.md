@@ -7,7 +7,7 @@
 - [x] Make recommendations section horizontal layout
 - [x] Ensure user info and stats are properly populated with data
 - [x] Add calculations for stats (games owned, wishlist count, total spent, badges)
-- [ ] Test the profile page functionality
+- [x] Test the profile page functionality
 
 ## Information Gathered:
 - Profile page has 4 cards: user-info, stats, purchase-history, recommendations, settings
