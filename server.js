@@ -89,7 +89,7 @@ let userData = {
     "avatar": "images/admin.png",
     "username": "admin",
     "email": "admin@example.com",
-    "password": "$2a$10$lvEwwJJV.QMNh8nGB4p8I.TrM0lPSEzpUULcORy3BeYUP9rfTjWE",
+    "password": "$2a$10$lMhNaC8h884A.Emjsj521.k8xpluxgWXBMmc3BqpFnWDO003kprcy",
     "verified": true,
     "balance": 100,
     "wishlist": [1, 5, 7, 13, 17, 28],
