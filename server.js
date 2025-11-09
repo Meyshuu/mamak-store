@@ -82,7 +82,8 @@ let userData = {
     "balance": 50,
     "wishlist": [],
     "library": [],
-    "cart": []
+    "cart": [],
+    "joinDate": "2023-01-15T00:00:00.000Z"
   },
   "2": {
     "id": 2,
@@ -94,7 +95,8 @@ let userData = {
     "balance": 100,
     "wishlist": [1, 5, 7, 13, 17, 28],
     "library": [2, 4, 9, 15, 19, 20, 25, 27],
-    "cart": []
+    "cart": [],
+    "joinDate": "2023-01-01T00:00:00.000Z"
   },
   "3": {
     "id": 3,
@@ -106,7 +108,8 @@ let userData = {
     "balance": 0,
     "wishlist": [],
     "library": [],
-    "cart": []
+    "cart": [],
+    "joinDate": "2023-02-01T00:00:00.000Z"
   }
 };
 
@@ -218,7 +221,7 @@ app.get('/api/user', (req, res) => {
 const userId = req.query.userId; // Assuming userId is passed as query param for demo
 const user = userData[userId];
 if (user) {
-res.json({ success: true, user: { id: user.id, username: user.username, email: user.email, avatar: user.avatar, verified: user.verified, balance: user.balance } });
+res.json({ success: true, user: { id: user.id, username: user.username, email: user.email, avatar: user.avatar, verified: user.verified, balance: user.balance, joinDate: user.joinDate } });
 } else {
 res.status(404).json({ success: false, message: 'User not found' });
 }

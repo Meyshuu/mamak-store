@@ -3,8 +3,8 @@
 ## Tasks to Complete:
 - [x] Move change avatar button from settings to user info card
 - [x] Remove change password form and button from settings
-- [x] Reorder profile cards: user-info, recommendations (horizontal), stats, purchase history
-- [x] Make recommendations section horizontal layout
+- [x] Reorder profile cards: user-info, purchase history, stats, recommendations (full width)
+- [x] Make recommendations section horizontal layout and full width
 - [x] Ensure user info and stats are properly populated with data
 - [x] Add calculations for stats (games owned, wishlist count, total spent, badges)
 - [x] Test the profile page functionality

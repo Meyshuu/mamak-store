@@ -161,6 +161,16 @@
             margin-top: 20px;
         }
 
+        .user-info-card,
+        .stats-card,
+        .purchase-history-card {
+            grid-column: span 1;
+        }
+
+        .recommendations-card {
+            grid-column: 1 / -1;
+        }
+
         .profile-card {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -310,6 +320,7 @@
         </div>
         <div style="display: flex; align-items: center;">
             <button onclick="showPage('cart')" style="background: none; border: none; color: white; font-size: 20px; margin-right: 10px; cursor: pointer;">🛒</button>
+            <button id="theme-toggle" onclick="toggleTheme()" style="background: none; border: none; color: white; font-size: 20px; margin-right: 10px; cursor: pointer;"><i class="fas fa-moon"></i></button>
             <button id="login-btn" onclick="showPage('login')">Login</button>
         </div>
     </nav>
@@ -611,9 +622,9 @@
                     <p><strong>Balance:</strong> Rp <span id="profile-balance"></span></p>
                     <p><strong>Join Date:</strong> <span id="profile-join-date"></span></p>
                 </div>
-                <div class="profile-card recommendations-card">
-                    <h3>Recommended for You</h3>
-                    <div id="recommendations" class="game-grid"></div>
+                <div class="profile-card purchase-history-card">
+                    <h3>Purchase History</h3>
+                    <ul id="profile-library"></ul>
                 </div>
                 <div class="profile-card stats-card">
                     <h3>Stats</h3>
@@ -625,9 +636,9 @@
                         <div id="profile-badges"></div>
                     </div>
                 </div>
-                <div class="profile-card purchase-history-card">
-                    <h3>Purchase History</h3>
-                    <ul id="profile-library"></ul>
+                <div class="profile-card recommendations-card">
+                    <h3>Recommended for You</h3>
+                    <div id="recommendations" class="game-grid"></div>
                 </div>
             </div>
         </div>
