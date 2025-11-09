@@ -84,7 +84,17 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/webstore'
   const existingGames = await Game.find({});
   if (existingGames.length === 0) {
     console.log('Seeding games data...');
-    await Game.insertMany(gamesData);
+    // Transform gamesData to match schema
+    const transformedGames = gamesData.map(game => ({
+      id: game.id,
+      title: game.name,
+      genre: game.genre,
+      price: game.price,
+      image: game.img,
+      description: game.desc,
+      reviews: game.reviews || []
+    }));
+    await Game.insertMany(transformedGames);
     console.log('Games data seeded successfully');
   } else {
     console.log('Games data already exists, skipping seed');
