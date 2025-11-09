@@ -110,8 +110,6 @@ let isDbConnected = false;
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('public'));
-app.use('/images', express.static('images'));
 
 // Load reviews from file (temporary for migration)
 let reviews = [];
@@ -154,6 +152,16 @@ res.sendFile(path.join(__dirname, 'public', 'index.html'));
 
 app.get('/index.html', (req, res) => {
 res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Serve static files
+app.get('/*', (req, res) => {
+  const filePath = path.join(__dirname, 'public', req.path);
+  if (fs.existsSync(filePath)) {
+    res.sendFile(filePath);
+  } else {
+    res.status(404).send('File not found');
+  }
 });
 
 
