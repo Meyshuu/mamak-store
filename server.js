@@ -47,7 +47,7 @@ const gamesData = [
 function loadDataFromFiles() {
   try { 
     // Games are already defined in the array above
-    console.log('Games loaded from code');
+    // console.log('Games loaded from code');
 
     // Load reviews from file
     const data = fs.readFileSync(path.join(__dirname, 'reviews.json'), 'utf8').replace(/^\uFEFF/, '');
@@ -57,9 +57,9 @@ function loadDataFromFiles() {
     games.forEach(game => {
       game.reviews = fileReviews.filter(review => review.gameId === game.id);
     });
-    console.log('Reviews loaded from file');
+    // console.log('Reviews loaded from file');
   } catch (err) {
-    console.error('Error loading data from files:', err);
+    // console.error('Error loading data from files:', err);
   }
 }
 
@@ -151,7 +151,7 @@ fs.writeFileSync(path.join(__dirname, 'userData.json'), JSON.stringify(userData,
 // For Vercel, use demo data
 if (process.env.VERCEL) {
   // Use the demo data defined above
-  console.log('Using demo data for Vercel deployment');
+  // console.log('Using demo data for Vercel deployment');
 }
 
 // Serve the HTML file
@@ -194,32 +194,7 @@ res.status(401).json({ success: false, message: 'Invalid credentials' });
 }
 });
 
-// Register
-app.post('/api/register', (req, res) => {
-const { username, email, password } = req.body;
-const existingUser = Object.values(userData).find(u => u.username === username || u.email === email);
-if (existingUser) {
-res.status(400).json({ success: false, message: 'User already exists' });
-} else {
-const hashedPassword = bcrypt.hashSync(password, 10);
-const newId = Math.max(...Object.keys(userData).map(k => parseInt(k))) + 1;
-userData[newId] = {
-id: newId,
-username,
-email,
-password: hashedPassword,
-verified: true,
-avatar: 'default-avatar.png',
-balance: 0,
-joinDate: new Date().toISOString(),
-wishlist: [],
-library: [],
-cart: []
-};
-saveUserData();
-res.json({ success: true, message: 'Registration successful.' });
-}
-});
+
 
 // Email verification
 app.get('/api/verify/:userId', (req, res) => {
@@ -397,7 +372,7 @@ res.status(404).json({ success: false, message: 'Game not found' });
 // For Vercel deployment
 if (require.main === module) {
   app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+      // console.log(`Server running on port ${PORT}`);
   });
 }
 

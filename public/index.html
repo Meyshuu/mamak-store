@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mamak Store</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="logo.ico" type="image/x-icon" size="any">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -136,164 +136,31 @@
         .settings-card button:hover { background: linear-gradient(45deg, #555, #777); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); }
         #change-password-form { margin-top: 15px; background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 10px; }
         #change-password-form input { width: 100%; padding: 10px; margin: 5px 0; background: #333; color: white; border: 1px solid #555; border-radius: 5px; }
-        @media (max-width: 768px) {
-            .profile-container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Profile Page Styles */
-        #profile h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 2.5em;
-            font-weight: 700;
-        }
-
-        .profile-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-top: 20px;
-        }
-
+        @media (max-width: 768px) { .profile-container { grid-template-columns: 1fr; } }
+        #profile h1 { text-align: center; margin-bottom: 30px; background: linear-gradient(45deg, #ff6b6b, #ee5a52); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 2.5em; font-weight: 700; }
+        .profile-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 20px; }
         .user-info-card,
         .stats-card,
-        .purchase-history-card {
-            grid-column: span 1;
-        }
-
-        .recommendations-card {
-            grid-column: 1 / -1;
-        }
-
-        .profile-card {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 30px;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .profile-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .profile-card h3 {
-            color: #fff;
-            margin-bottom: 20px;
-            font-size: 1.5em;
-            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .user-info-card {
-            text-align: center;
-        }
-
-        .user-info-card img {
-            display: block;
-            margin: 0 auto 20px;
-            border: 4px solid #ff6b6b;
-            transition: border-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .user-info-card img:hover {
-            border-color: #ee5a52;
-            transform: scale(1.05);
-        }
-
-        .user-info-card p {
-            margin: 10px 0;
-            font-size: 1.1em;
-            color: #ccc;
-        }
-
-        .user-info-card p strong {
-            color: #fff;
-        }
-
-        .user-info-card button {
-            margin-top: 20px;
-            padding: 12px 25px;
-            background: linear-gradient(45deg, #333, #555);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        }
-
-        .user-info-card button:hover {
-            background: linear-gradient(45deg, #555, #777);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
-        }
-
-        .user-info-card .change-avatar-btn {
-            margin-top: 10px;
-            padding: 8px 15px;
-            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
-            color: white;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9em;
-        }
-
-        .user-info-card .change-avatar-btn:hover {
-            background: linear-gradient(45deg, #ee5a52, #dc4545);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(255, 107, 107, 0.4);
-        }
-
-        .purchase-history-card ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .purchase-history-card li {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 10px;
-            transition: background 0.3s ease;
-        }
-
-        .purchase-history-card li:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .recommendations-card .game-grid {
-            display: flex;
-            overflow-x: auto;
-            gap: 15px;
-            padding: 10px 0;
-        }
-
-        .recommendations-card .game-card {
-            flex: 0 0 200px;
-            min-width: 200px;
-        }
-
-        .recommendations-card .game-card {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 15px;
-            padding: 15px;
-            text-align: center; transition: transform 0.3s, box-shadow 0.3s; backdrop-filter: blur(10px); }
+        .purchase-history-card { grid-column: span 1; }
+        .recommendations-card { grid-column: 1 / -1; }
+        .profile-card { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; padding: 30px; backdrop-filter: blur(15px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .profile-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); }
+        .profile-card h3 { color: #fff; margin-bottom: 20px; font-size: 1.5em; background: linear-gradient(45deg, #ff6b6b, #ee5a52); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .user-info-card { text-align: center; }
+        .user-info-card img { display: block; margin: 0 auto 20px; border: 4px solid #ff6b6b; transition: border-color 0.3s ease, transform 0.3s ease; }
+        .user-info-card img:hover { border-color: #ee5a52; transform: scale(1.05); }
+        .user-info-card p { margin: 10px 0; font-size: 1.1em; color: #ccc; }
+        .user-info-card p strong { color: #fff; }
+        .user-info-card button { margin-top: 20px; padding: 12px 25px; background: linear-gradient(45deg, #333, #555); color: white; border: none; border-radius: 25px; cursor: pointer; transition: all 0.3s ease; font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
+        .user-info-card button:hover { background: linear-gradient(45deg, #555, #777); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.4); }
+        .user-info-card .change-avatar-btn { margin-top: 10px; padding: 8px 15px; background: linear-gradient(45deg, #ff6b6b, #ee5a52); color: white; border: none; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; font-size: 0.9em; }
+        .user-info-card .change-avatar-btn:hover { background: linear-gradient(45deg, #ee5a52, #dc4545); transform: translateY(-1px); box-shadow: 0 4px 8px rgba(255, 107, 107, 0.4); }
+        .purchase-history-card ul { list-style: none; padding: 0; }
+        .purchase-history-card li { background: rgba(255, 255, 255, 0.05); padding: 15px; margin: 10px 0; border-radius: 10px; transition: background 0.3s ease; }
+        .purchase-history-card li:hover { background: rgba(255, 255, 255, 0.1); }
+        .recommendations-card .game-grid { display: flex; overflow-x: auto; gap: 15px; padding: 10px 0; }
+        .recommendations-card .game-card { flex: 0 0 200px; min-width: 200px; }
+        .recommendations-card .game-card { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 15px; padding: 15px; text-align: center; transition: transform 0.3s, box-shadow 0.3s; backdrop-filter: blur(10px); }
         .recommendations-card .game-card:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 8px 16px rgba(0,0,0,0.5); }
         .recommendations-card .game-card img { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; }
         .recommendations-card .game-card h3 { font-size: 1.1em; margin: 10px 0; color: #fff; }
@@ -423,16 +290,7 @@
             </form>
             <p style="text-align: center; margin-top: 10px;">Demo: Username "admin", Password "123"</p>
         </div>
-        <div id="register" class="page login-form" style="display: none;">
-            <h2>Register</h2>
-            <form onsubmit="handleRegister(event)">
-                <input type="text" id="reg-username" placeholder="Username" required>
-                <input type="email" id="reg-email" placeholder="Email" required>
-                <input type="password" id="reg-password" placeholder="Password" required>
-                <button type="submit">Register</button>
-            </form>
-            <p style="text-align: center; margin-top: 10px;"><a href="#" onclick="showPage('login')">Sudah punya akun? Login di sini</a></p>
-        </div>
+
         <div id="modal" class="modal">
             <div class="modal-content">
                 <span onclick="closeModal()" style="float: right; cursor: pointer; font-size: 20px;">&times;</span>
@@ -619,7 +477,7 @@
                     <p><strong>Username:</strong> <span id="profile-username"></span></p>
                     <p><strong>Email:</strong> <span id="profile-email"></span></p>
                     <p><strong>Verified:</strong> <span id="profile-verified"></span></p>
-                    <p><strong>Balance:</strong> Rp <span id="profile-balance"></span></p>
+                    <p><strong>Balance:</strong> <span id="profile-balance"></span></p>
                     <p><strong>Join Date:</strong> <span id="profile-join-date"></span></p>
                 </div>
                 <div class="profile-card purchase-history-card">
@@ -929,35 +787,7 @@
             showNotification('Logout berhasil!', 'success');
         }
 
-        // Fungsi handle register
-        function handleRegister(event) {
-            event.preventDefault();
-            const username = document.getElementById('reg-username').value;
-            const email = document.getElementById('reg-email').value;
-            const password = document.getElementById('reg-password').value;
-            if (!username || !email || !password) {
-                showNotification('Harap isi semua field!', 'error');
-                return;
-            }
-            fetch('/api/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, email, password })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    showNotification(data.message, 'success');
-                    showPage('login');
-                } else {
-                    showNotification(data.message, 'error');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showNotification('Terjadi kesalahan saat registrasi.', 'error');
-            });
-        }
+
 
         // Fungsi untuk cek release date
         function checkRelease(date, filter) {
@@ -1101,17 +931,65 @@
                 screenshotsDiv.appendChild(img);
             });
 
-// Populate reviews
-            const reviewsListDiv = document.getElementById('reviews-list');
-            reviewsListDiv.innerHTML = '';
-            currentGame.reviews.forEach(review => {
-                const reviewDiv = document.createElement('div');
-                reviewDiv.className = 'modal-review';
-                reviewDiv.innerHTML = `<p><strong>${review.user}</strong> (${review.rating}/5): ${review.comment}</p>`;
-                reviewsListDiv.appendChild(reviewDiv);
-            });
+            displayReviews();
 
             document.getElementById('modal').style.display = 'flex';
+        }
+
+        // Fungsi sort reviews
+        function sortReviews() {
+            const sortBy = document.getElementById('sort-reviews').value;
+            let sortedReviews = [...currentGame.reviews];
+            if (sortBy === 'newest') {
+                sortedReviews.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+            } else if (sortBy === 'oldest') {
+                sortedReviews.sort((a, b) => new Date(a.date || 0) - new Date(b.date || 0));
+            } else if (sortBy === 'highest') {
+                sortedReviews.sort((a, b) => b.rating - a.rating);
+            } else if (sortBy === 'lowest') {
+                sortedReviews.sort((a, b) => a.rating - b.rating);
+            }
+            displayReviews(sortedReviews);
+        }
+
+        // Fungsi display reviews
+        function displayReviews(reviewsToShow = currentGame.reviews) {
+            const reviewsList = document.getElementById('reviews-list');
+            reviewsList.innerHTML = '';
+            const start = 0;
+            const end = Math.min(currentReviewsShown, reviewsToShow.length);
+            const reviewsToDisplay = reviewsToShow.slice(start, end);
+            reviewsToDisplay.forEach(review => {
+                const reviewDiv = document.createElement('div');
+                reviewDiv.className = 'review';
+                reviewDiv.innerHTML = `
+                    <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                        <img src="${review.avatar || 'default-avatar.png'}" alt="Avatar" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+                        <div>
+                            <strong>${review.user}</strong>
+                            <div class="stars">${'★'.repeat(Math.floor(review.rating))}</div>
+                            <small>${review.date ? new Date(review.date).toLocaleDateString() : 'N/A'}</small>
+                        </div>
+                    </div>
+                    <p>${review.comment}</p>
+                `;
+                reviewsList.appendChild(reviewDiv);
+            });
+            // Update load more button
+            const loadMoreBtn = document.getElementById('load-more-reviews');
+            if (currentReviewsShown < reviewsToShow.length) {
+                loadMoreBtn.style.display = 'block';
+            } else {
+                loadMoreBtn.style.display = 'none';
+            }
+            // Update review count
+            document.getElementById('review-count').textContent = `(${reviewsToShow.length})`;
+        }
+
+        // Fungsi load more reviews
+        function loadMoreReviews() {
+            currentReviewsShown += reviewsPerBatch;
+            displayReviews();
         }
 
         // Fungsi tutup modal
