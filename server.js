@@ -57,6 +57,7 @@ function loadDataFromFiles() {
     games.forEach(game => {
       game.reviews = fileReviews.filter(review => review.gameId === game.id);
     });
+    reviews = fileReviews;
     // console.log('Reviews loaded from file');
   } catch (err) {
     // console.error('Error loading data from files:', err);
