@@ -185,7 +185,6 @@
                 <a href="#" onclick="showPage('library')">Library</a>
                 <a href="#" onclick="showPage('profile')">Profile</a>
                 <a href="#" onclick="showPage('contact')">Contact</a>
-
             </div>
         </div>
         <div style="display: flex; align-items: center;">
@@ -542,8 +541,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-// Removed embedded users data
-
+// Data Game Untuk Index.html
         let games = [
             { id: 1, name: "Fortnite", img: "fortnite.png", desc: "Game battle royale dengan elemen membangun dan aksi cepat.", genre: ["battle-royale", "shooter", "action"], price: 0, releaseDate: "2017-07-25", developer: "Epic Games", platform: "PC, PS4, Xbox", rating: 4.5, sysReq: { min: "Sistem Operasi: Windows 10 64-bit (versi 1703 atau lebih baru), Prosesor: Core i3-3225 3.3 GHz atau AMD FX-4350, Memori (RAM): 8 GB, Kartu Grafis: Intel HD 4000 atau AMD Radeon Vega 8, Penyimpanan: 30 GB ruang kosong ", rec: "Sistem Operasi: Windows 10/11 64-bit, Prosesor: Core i5-7300U 3.5 GHz atau AMD Ryzen 3 3300U, Memori (RAM): 16 GB, Kartu Grafis: Nvidia GTX 960, AMD R9 280, atau DX11 GPU yang setara, Penyimpanan: NVMe SSD " }, screenshots: ["fortnite-ss1.png", "fortnite-ss2.png"], reviews: [], website: "https://www.epicgames.com/fortnite" },
             { id: 2, name: "Rocket League", img: "rl.png", desc: "Pertandingan sepak bola menggunakan mobil roket.", genre: ["sports", "action", "arcade"], price: 0, releaseDate: "2015-07-07", developer: "Psyonix", platform: "PC, PS4, Xbox", rating: 4.2, sysReq: { min: "Sistem Operasi: Windows 7 (64-bit) atau lebih baru, Prosesor: 2.5 GHz Dual Core, Memori (RAM): 4 GB, Kartu Grafis: NVIDIA GeForce GTX 760, AMD Radeon R9 270X, atau yang setara, DirectX: Versi 11, Ruang Penyimpanan: Sekitar 20-25 GB ", rec: "istem Operasi: Windows 7 (64-bit) atau lebih baru, Prosesor: 3.0+ GHz Quad Core, Memori (RAM): 8 GB, Kartu Grafis: NVIDIA GeForce GTX 1060, AMD Radeon RX 470, atau yang setara, DirectX: Versi 11, Ruang Penyimpanan: Sekitar 20-25 GB " }, screenshots: ["rl-ss1.png", "rl-ss2.png"], reviews: [], website: "https://www.rocketleague.com" },
@@ -577,12 +575,15 @@
             { id: 30, name: "God of War: Ragnarok", img: "gowr.png", desc: "Aksi epik Kratos dan Atreus melawan para dewa Nordik.", genre: ["action", "adventure", "mythology"], price: 259000, releaseDate: "2022-11-09", developer: "Santa Monica Studio", platform: "PC, PS4, PS5", rating: 4.9, sysReq: { min: "Prosesor 64-bit dan OS diperlukan, OS: Windows 10 64-bit, PROSESOR: Intel i5-4690 / AMD Ryzen 3 1200, MEMORI: 8 GB RAM, GRAFIS: NVIDIA GTX 1060 (6 GB) / AMD RX 5500 XT (8 GB) / Intel Arc A750, DIRECTX: Versi 12, PENYIMPANAN: 190 GB ruang tersedia", rec: "Prosesor 64-bit dan OS diperlukan, OS: Windows 10 64-bit, PROSESOR: Intel i7-8700 / AMD Ryzen 5 3600, MEMORI: 16 GB RAM, GRAFIS: NVIDIA RTX 2070 / AMD RX 6600 XT (8 GB+), DIRECTX: Versi 12, PENYIMPANAN: 190 GB ruang tersedia" }, screenshots: ["gowr-ss1.png", "gowr-ss2.png"], reviews: [], website: "https://www.playstation.com/en-us/games/god-of-war-ragnarok" }
         ];
 
-        let userData = JSON.parse(localStorage.getItem('userData')) || {}; // { userId: { wishlist: [], library: [], cart: [{ gameId, quantity }] } }
-
-        // Helper functions for API simulation
+        let userData = JSON.parse(localStorage.getItem('userData')) || {}; // Ngambil Data Dari UserData.json {Username, Email, Verified, Balance, Join Date(masi error), Wishlist, Library, Cart, Purchase History, Stats}
+        // Buat API Simulation
         async function bcryptCompare(password, hash) {
-            // Simple mock for bcrypt, since we can't use bcrypt in browser
-            // In real scenario, use a library or server
+            // Fungsi ini tidak benar-benar melakukan hashing bcrypt.
+            // Dia hanya membandingkan:
+            // apakah password yang dimasukkan adalah '123'
+            // dan apakah hash-nya sama persis dengan string hash yang sudah ditulis.
+            // Jika dua kondisi itu benar → return true.
+            // Jika tidak cocok → return false.
             return password === '123' && hash === '$2a$10$FgisWgi.f05RgshHmuWcdeGnhxLOAbVRo945BzcdhRTdwcdb4qlnm';
         }
 
@@ -605,17 +606,6 @@
                 return { success: true, token, user: { id: user.id, username: user.username, email: user.email, avatar: user.avatar, balance: user.balance } };
             } else {
                 throw new Error('Invalid credentials');
-            }
-        }
-
-        async function apiRegister(username, email, password) {
-            if (users.find(u => u.username === username || u.email === email)) {
-                throw new Error('User already exists');
-            } else {
-                const hashedPassword = await bcryptHash(password);
-                const newUser = { id: users.length + 1, username, email, password: hashedPassword, verified: true, avatar: 'default-avatar.png', balance: 0 };
-                users.push(newUser);
-                return { success: true, message: 'Registration successful.' };
             }
         }
 
