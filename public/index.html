@@ -484,17 +484,6 @@
                     </div>
                 </div>
             </div>
-            <div class="social-links">
-                <h3>Follow Us</h3>
-                <div class="social-icons">
-                    <a href="#" class="social-icon facebook" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-icon twitter" title="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-icon instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-icon youtube" title="YouTube"><i class="fab fa-youtube"></i></a>
-                    <a href="#" class="social-icon discord" title="Discord"><i class="fab fa-discord"></i></a>
-                    <a href="#" class="social-icon twitch" title="Twitch"><i class="fab fa-twitch"></i></a>
-                </div>
-            </div>
         </div>
         <div id="profile" class="page" style="display: none;">
             <h2>Profile</h2>
@@ -1032,7 +1021,7 @@
             const rating = document.getElementById('review-rating').value;
             const comment = document.getElementById('review-comment').value;
             if (!user || !rating || !comment) {
-                showNotification('Please fill all fields.', 'error');
+                showNotification('Mohon untuk Mengisi Semua Formnya', 'error');
                 return;
             }
             fetch('/api/reviews', {
@@ -1055,14 +1044,14 @@
                     document.getElementById('review-user').value = '';
                     document.getElementById('review-rating').value = '';
                     document.getElementById('review-comment').value = '';
-                    showNotification('Review added successfully!', 'success');
+                    showNotification('Review berhasil ditambahkan!', 'success');
                 } else {
-                    showNotification('Failed to add review.', 'error');
+                    showNotification('Gagal Menambahkan review.', 'error');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                showNotification('Error adding review.', 'error');
+                showNotification('Error Saat Menambahkan review.', 'error');
             });
         }
 
@@ -1083,12 +1072,12 @@
                         updateWishlist();
                         showNotification(`${game.name} ditambahkan ke wishlist!`, 'success');
                     } else {
-                        showNotification('Failed to add to wishlist.', 'error');
+                        showNotification('Gagal Ditambahkan Ke Wishlist.', 'error');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    showNotification('Error adding to wishlist.', 'error');
+                    showNotification('Error Saat Di Tambahkan Ke Wishlist.', 'error');
                 });
             } else {
                 if (!wishlist.find(g => g.id === game.id)) {
@@ -1310,14 +1299,14 @@
                     .then(data => {
                         if (data.success) {
                             document.getElementById('profile-avatar').src = data.avatar;
-                            showNotification('Avatar updated!', 'success');
+                            showNotification('Avatar diperbarui!', 'success');
                         } else {
-                            showNotification('Failed to update avatar.', 'error');
+                            showNotification('Failed untuk memperbarui avatar.', 'error');
                         }
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        showNotification('Error updating avatar.', 'error');
+                        showNotification('Error memperbarui avatar.', 'error');
                     });
                 }
             };
@@ -1346,12 +1335,12 @@
                     document.getElementById('profile-verified').textContent = user.verified ? 'Yes' : 'No';
                     document.getElementById('profile-balance').textContent = 'Rp ' + user.balance;
                 } else {
-                    showNotification('Failed to load user data.', 'error');
+                    showNotification('Gagal memuat user data.', 'error');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                showNotification('Error loading user data.', 'error');
+                showNotification('Error memuat user data.', 'error');
             });
             // Fetch user data (library, etc.)
             fetch('/api/user-data/' + userId)
